@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--6p1-m#55p9vrnn1d!8y4pwe=b)lf#_984886s&glwxi%u3@4i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['narsimha-temple.onrender.com','127.0.0.1','localhost']
 
 
 # Application definition
