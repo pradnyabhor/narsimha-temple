@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+{% load crispy_forms_tags %}
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Delete Daily Update</h1>
+</div>
+
+<div class="form-container">
+    <p>Are you sure you want to delete the daily update "{{ update.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{% url 'manage_daily_updates' %}" class="btn btn-secondary me-md-2">Cancel</a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

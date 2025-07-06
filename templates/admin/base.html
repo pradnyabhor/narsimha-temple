@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - {{ temple_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .sidebar {
+        min-height: 100vh;
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+    }
+
+    .sidebar .nav-link {
+        color: #333;
+        border-radius: 0;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: #e9ecef;
+    }
+
+    .sidebar .nav-link.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .dashboard-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-responsive {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}" href="{% url 'admin_dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'sliders' in request.path %}active{% endif %}" href="{% url 'manage_sliders' %}">
+                            <i class="fas fa-images me-2"></i>Home Sliders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'blogs' in request.path %}active{% endif %}" href="{% url 'manage_blogs' %}">
+                            <i class="fas fa-blog me-2"></i>Blogs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'events' in request.path %}active{% endif %}" href="{% url 'manage_events' %}">
+                            <i class="fas fa-calendar-alt me-2"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'daily-updates' in request.path %}active{% endif %}" href="{% url 'manage_daily_updates' %}">
+                            <i class="fas fa-newspaper me-2"></i>Daily Updates
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'donations' in request.path %}active{% endif %}" href="{% url 'manage_donations' %}">
+                            <i class="fas fa-donate me-2"></i>Donations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'feedbacks' in request.path %}active{% endif %}" href="{% url 'manage_feedbacks' %}">
+                            <i class="fas fa-comment-alt me-2"></i>Feedbacks
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'sevaks' in request.path %}active{% endif %}" href="{% url 'manage_sevaks' %}">
+                            <i class="fas fa-hands-helping me-2"></i>Sevak Registrations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'social-activities' in request.path %}active{% endif %}" href="{% url 'manage_social_activities' %}">
+                            <i class="fas fa-heart me-2"></i>Social Activities
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'about-content' in request.path %}active{% endif %}" href="{% url 'manage_about_content' %}">
+                            <i class="fas fa-info-circle me-2"></i>About Temple Content
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}

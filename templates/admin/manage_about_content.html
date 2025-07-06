@@ -1,0 +1,38 @@
+{% extends 'admin/base.html' %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Manage About Temple Content</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header bg-primary-custom text-white">
+                Sections
+            </div>
+            <div class="list-group list-group-flush">
+                {% for section in sections %}
+                <a href="?section={{ section.id }}" class="list-group-item list-group-item-action {% if section.id == current_section.id %}active{% endif %}">
+                    {{ section.get_section_display }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        {% if current_section %}
+        <div class="form-container">
+            <h3>Edit {{ current_section.get_section_display }} Content</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary-custom">Update Content</button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

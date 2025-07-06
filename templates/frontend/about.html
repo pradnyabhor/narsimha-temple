@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}About - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>About {{ temple_name }}</h1>
+        <p class="lead">Discover the rich history and spiritual significance of our temple</p>
+    </div>
+</div>
+
+<!-- About Content -->
+<section class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="section-title">Our Temple</h2>
+            <p>Shri Laxmi Narsinha Mandir is a sacred place of worship dedicated to Lord Narsinha, the fourth incarnation of Lord Vishnu, and Goddess Laxmi. The temple is located in the serene town of Ranjani, Maharashtra, surrounded by natural beauty and spiritual energy.</p>
+            <p>The temple architecture reflects traditional Hindu temple design with intricate carvings and sculptures depicting various deities and mythological scenes.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/600x400?text=Temple+Exterior" alt="Temple Exterior" class="img-fluid rounded">
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-landmark fa-3x text-primary-custom mb-3"></i>
+                    <h5>History</h5>
+                    <p>Learn about the ancient origins and historical significance of our temple.</p>
+                    <a href="{% url 'history' %}" class="btn btn-primary-custom">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-alt fa-3x text-primary-custom mb-3"></i>
+                    <h5>Festivals</h5>
+                    <p>Discover the vibrant festivals celebrated at our temple throughout the year.</p>
+                    <a href="{% url 'festivals' %}" class="btn btn-primary-custom">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-pray fa-3x text-primary-custom mb-3"></i>
+                    <h5>Pooja</h5>
+                    <p>Information about daily rituals, special poojas, and their significance.</p>
+                    <a href="{% url 'pooja' %}" class="btn btn-primary-custom">Explore</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-map-marked-alt fa-3x text-primary-custom mb-3"></i>
+                    <h5>Places to Visit</h5>
+                    <p>Explore nearby attractions and sacred places around our temple.</p>
+                    <a href="{% url 'places_to_visit' %}" class="btn btn-primary-custom">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-directions fa-3x text-primary-custom mb-3"></i>
+                    <h5>How to Reach</h5>
+                    <p>Find the best ways to reach our temple from different locations.</p>
+                    <a href="{% url 'how_to_reach' %}" class="btn btn-primary-custom">Explore</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

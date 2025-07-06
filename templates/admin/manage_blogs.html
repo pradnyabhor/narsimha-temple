@@ -1,0 +1,62 @@
+{% extends 'admin/base.html' %}
+{% load crispy_forms_tags %}
+{% block admin_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Manage Blogs</h1>
+    <a href="{% url 'manage_blogs' %}?action=add" class="btn btn-primary-custom">
+        <i class="fas fa-plus"></i> Add New Blog
+    </a>
+</div>
+
+{% if form %}
+<div class="form-container mb-4">
+    <h3>{% if blog %}Edit{% else %}Add New{% endif %} Blog</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary-custom">{% if blog %}Update{% else %}Save{% endif %} Blog</button>
+            <a href="{% url 'manage_blogs' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blog in blogs %}
+            <tr>
+                <td><img src="{{ blog.image.url }}" alt="{{ blog.title }}" style="height: 50px;"></td>
+                <td>{{ blog.title }}</td>
+                <td>
+                    {% if blog.is_active %}
+                    <span class="badge bg-success">Active</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>{{ blog.created_at|date:"M d, Y" }}</td>
+                <td>
+                    <a href="{% url 'edit_blog' blog.id %}" class="btn btn-sm btn-primary-custom">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'delete_blog' blog.id %}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Online Services - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Online Services</h1>
+        <p class="lead">Access our temple services from anywhere</p>
+    </div>
+</div>
+
+<!-- Services Section -->
+<section class="container my-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-donate fa-3x text-primary-custom mb-3"></i>
+                    <h3>Donation</h3>
+                    <p>Support our temple and its activities through your generous donations.</p>
+                    <a href="{% url 'donation' %}" class="btn btn-primary-custom">Donate Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-comment-alt fa-3x text-primary-custom mb-3"></i>
+                    <h3>Feedback</h3>
+                    <p>Share your valuable feedback to help us improve our services.</p>
+                    <a href="{% url 'feedback' %}" class="btn btn-primary-custom">Give Feedback</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-hands-helping fa-3x text-primary-custom mb-3"></i>
+                    <h3>Sevak Registration</h3>
+                    <p>Register as a volunteer to serve the temple and community.</p>
+                    <a href="{% url 'sevak_registration' %}" class="btn btn-primary-custom">Register Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-heart fa-3x text-primary-custom mb-3"></i>
+                    <h3>Social Activities</h3>
+                    <p>Learn about our social initiatives and how you can participate.</p>
+                    <a href="{% url 'social_activity' %}" class="btn btn-primary-custom">View Activities</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

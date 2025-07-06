@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} - {{ temple_name }}{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>{{ event.title }}</h1>
+        <p class="lead">{{ event.start_date|date:"M d, Y" }} - {{ event.end_date|date:"M d, Y" }}</p>
+    </div>
+</div>
+
+<!-- Event Detail Section -->
+<section class="container my-5">
+    <div class="row">
+        <div class="col-md-8">
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-4">
+            <div class="event-details mb-4">
+                <p><strong><i class="fas fa-calendar-alt me-2"></i>Date:</strong> {{ event.start_date|date:"M d, Y" }} - {{ event.end_date|date:"M d, Y" }}</p>
+                <p><strong><i class="fas fa-clock me-2"></i>Time:</strong> {{ event.start_date|time:"g:i A" }} - {{ event.end_date|time:"g:i A" }}</p>
+                <p><strong><i class="fas fa-map-marker-alt me-2"></i>Location:</strong> {{ event.location }}</p>
+            </div>
+            <div class="event-content">
+                {{ event.description|safe }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary-custom text-white">
+                    Event Details
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fas fa-calendar-alt me-2"></i> {{ event.start_date|date:"M d, Y" }} - {{ event.end_date|date:"M d, Y" }}</li>
+                    <li class="list-group-item"><i class="fas fa-clock me-2"></i> {{ event.start_date|time:"g:i A" }} - {{ event.end_date|time:"g:i A" }}</li>
+                    <li class="list-group-item"><i class="fas fa-map-marker-alt me-2"></i> {{ event.location }}</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-primary-custom text-white">
+                    Other Events
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for ev in upcoming_events %}
+                    {% if ev.id != event.id %}
+                    <a href="{% url 'event_detail' ev.slug %}" class="list-group-item list-group-item-action">{{ ev.title }}</a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

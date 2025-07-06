@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Social Activities - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Social Activities</h1>
+        <p class="lead">Our initiatives for community welfare and social service</p>
+    </div>
+</div>
+
+<!-- Activities Section -->
+<section class="container my-5">
+    <div class="row">
+        {% for activity in activities %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ activity.image.url }}" class="card-img-top" alt="{{ activity.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ activity.title }}</h5>
+                    <p class="card-text"><i class="fas fa-calendar-alt me-2"></i>{{ activity.date }}</p>
+                    <p class="card-text">{{ activity.description|safe|truncatewords:20 }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <button type="button" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#activityModal{{ activity.id }}">
+                        View Details
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Modal -->
+        <div class="modal fade" id="activityModal{{ activity.id }}" tabindex="-1" aria-labelledby="activityModalLabel{{ activity.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="activityModalLabel{{ activity.id }}">{{ activity.title }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{ activity.image.url }}" alt="{{ activity.title }}" class="img-fluid rounded mb-3">
+                        <p><i class="fas fa-calendar-alt me-2"></i> {{ activity.date }}</p>
+                        <div class="activity-content">
+                            {{ activity.description|safe }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No social activities to display at the moment. Please check back later.</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- About Social Initiatives -->
+<section class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="section-title">Our Social Initiatives</h2>
+            <p>At Shri Laxmi Narsinha Mandir, we believe in serving the community as part of our spiritual mission. Our social activities include:</p>
+            <ul>
+                <li>Educational programs for underprivileged children</li>
+                <li>Health camps and medical assistance</li>
+                <li>Food distribution to the needy</li>
+                <li>Environmental conservation efforts</li>
+                <li>Support for elderly and differently-abled individuals</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/600x400?text=Social+Service" alt="Social Service" class="img-fluid rounded">
+        </div>
+    </div>
+</section>
+{% endblock %}

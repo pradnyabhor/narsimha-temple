@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Feedback - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Feedback</h1>
+        <p class="lead">We value your thoughts and suggestions</p>
+    </div>
+</div>
+
+<!-- Feedback Form Section -->
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary-custom text-white">
+                    <h3 class="mb-0">Feedback Form</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">Submit Feedback</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h4>Your Feedback Matters</h4>
+                <p>We are committed to improving our services and your experience at Shri Laxmi Narsinha Mandir. Your feedback helps us:</p>
+                <ul>
+                    <li>Understand your needs and expectations</li>
+                    <li>Identify areas for improvement</li>
+                    <li>Enhance our facilities and services</li>
+                    <li>Plan better events and activities</li>
+                </ul>
+                <p>Thank you for taking the time to share your thoughts with us.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

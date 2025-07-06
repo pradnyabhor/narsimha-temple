@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Donation - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Make a Donation</h1>
+        <p class="lead">Support our temple and its activities through your generous contributions</p>
+    </div>
+</div>
+
+<!-- Donation Form Section -->
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary-custom text-white">
+                    <h3 class="mb-0">Donation Form</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">Proceed to Payment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h4>Why Donate?</h4>
+                <p>Your donations help us:</p>
+                <ul>
+                    <li>Maintain the temple premises and facilities</li>
+                    <li>Organize daily rituals and special poojas</li>
+                    <li>Conduct spiritual and cultural events</li>
+                    <li>Support community welfare programs</li>
+                    <li>Preserve our rich cultural heritage</li>
+                </ul>
+                <p>All donations are tax-exempt under section 80G of the Income Tax Act.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add any additional JavaScript for donation page here
+    document.addEventListener('DOMContentLoaded', function() {
+        // Example: Set minimum donation amount
+        const amountField = document.querySelector('#id_amount');
+        amountField.min = 1;
+    });
+</script>
+{% endblock %}

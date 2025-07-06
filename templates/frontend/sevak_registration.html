@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Sevak Registration - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Sevak Registration</h1>
+        <p class="lead">Serve the temple and community as a volunteer</p>
+    </div>
+</div>
+
+<!-- Registration Form Section -->
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary-custom text-white">
+                    <h3 class="mb-0">Sevak Registration Form</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">Register as Sevak</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h4>About Sevak Program</h4>
+                <p>As a Sevak (volunteer), you can contribute to the temple in various ways:</p>
+                <ul>
+                    <li>Assist in daily temple activities and rituals</li>
+                    <li>Help organize festivals and special events</li>
+                    <li>Participate in community service programs</li>
+                    <li>Support temple administration and management</li>
+                    <li>Engage in spiritual and cultural activities</li>
+                </ul>
+                <p>Your service as a Sevak is highly appreciated and contributes to the temple's mission.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

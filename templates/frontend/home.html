@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - {{ temple_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Slider -->
+<!--<div id="templeCarousel" class="carousel slide" data-bs-ride="carousel">-->
+<!--    <div class="carousel-indicators">-->
+<!--        {% for slider in sliders %}-->
+<!--        <button type="button" data-bs-target="#templeCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></button>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    <div class="carousel-inner">-->
+<!--        {% for slider in sliders %}-->
+<!--        <div class="carousel-item {% if forloop.first %}active{% endif %}">-->
+<!--            <img src="D:/code/shiv/1.jpg" class="d-block w-100" alt="{{ slider.title }}" style="height: 500px; object-fit: cover;">-->
+<!--            <div class="carousel-caption d-none d-md-block">-->
+<!--                <h5>{{ slider.title }}</h5>-->
+<!--                <p>{{ slider.description }}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    <button class="carousel-control-prev" type="button" data-bs-target="#templeCarousel" data-bs-slide="prev">-->
+<!--        <span class="carousel-control-prev-icon"></span>-->
+<!--    </button>-->
+<!--    <button class="carousel-control-next" type="button" data-bs-target="#templeCarousel" data-bs-slide="next">-->
+<!--        <span class="carousel-control-next-icon"></span>-->
+<!--    </button>-->
+<!--</div>-->
+
+<!-- Welcome Section -->
+<section class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="section-title">Welcome to {{ temple_name }}</h2>
+            <p>Shri Laxmi Narsinha Mandir is a sacred place of worship located in the serene town of Ranjani, Maharashtra. The temple is dedicated to Lord Narsinha, the fourth incarnation of Lord Vishnu, and Goddess Laxmi.</p>
+            <p>The temple is known for its spiritual ambiance, architectural beauty, and the divine presence that devotees experience during their visit.</p>
+            <a href="{% url 'about' %}" class="btn btn-primary-custom">Learn More</a>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'images/1.jpg' %}" alt="Temple" class="img-fluid rounded">
+        </div>
+    </div>
+</section>
+
+<!-- Daily Updates -->
+<section class="container my-5">
+    <h2 class="section-title">Daily Updates</h2>
+    <div class="row">
+        {% for update in latest_updates %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ update.title }}</h5>
+                    <p class="card-text">{{ update.content|safe|truncatewords:20 }}</p>
+                    <small class="text-muted">{{ update.date }}</small>
+                    <a href="{% url 'daily_updates' %}" class="btn btn-sm btn-primary-custom mt-2">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="container my-5">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="row">
+        {% for event in upcoming_events %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text">{{ event.start_date|date:"M d, Y" }} - {{ event.end_date|date:"M d, Y" }}</p>
+                    <p class="card-text">{{ event.description|safe|truncatewords:15 }}</p>
+                    <a href="{% url 'event_detail' event.slug %}" class="btn btn-primary-custom">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'event_list' %}" class="btn btn-outline-primary-custom">View All Events</a>
+    </div>
+</section>
+
+<!-- Latest Blogs -->
+<section class="container my-5">
+    <h2 class="section-title">Latest Blogs</h2>
+    <div class="row">
+        {% for blog in latest_blogs %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ blog.title }}</h5>
+                    <p class="card-text">{{ blog.content|safe|truncatewords:20 }}</p>
+                    <a href="{% url 'blog_detail' blog.slug %}" class="btn btn-primary-custom">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'blog_list' %}" class="btn btn-outline-primary-custom">View All Blogs</a>
+    </div>
+</section>
+
+<!-- Social Activities -->
+<section class="container my-5">
+    <h2 class="section-title">Social Activities</h2>
+    <div class="row">
+        {% for activity in social_activities %}
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ activity.image.url }}" class="card-img-top" alt="{{ activity.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ activity.title }}</h5>
+                    <p class="card-text">{{ activity.date }}</p>
+                    <p class="card-text">{{ activity.description|safe|truncatewords:15 }}</p>
+                    <a href="{% url 'social_activity' %}" class="btn btn-primary-custom">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'social_activity' %}" class="btn btn-outline-primary-custom">View All Activities</a>
+    </div>
+</section>
+
+<!-- Donation CTA -->
+<section class="bg-primary-custom text-white py-5">
+    <div class="container text-center">
+        <h2>Support Our Temple</h2>
+        <p class="lead">Your donations help us maintain the temple and organize spiritual activities.</p>
+        <a href="{% url 'donation' %}" class="btn btn-light btn-lg">Donate Now</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Events - {{ temple_name }}{% endblock title %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Temple Events</h1>
+        <p class="lead">Participate in our spiritual and cultural events</p>
+    </div>
+</div>
+
+<!-- Events Section -->
+<section class="container my-5">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div class="row">
+        {% for event in upcoming_events %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text"><i class="fas fa-calendar-alt me-2"></i>{{ event.start_date|date:"M d, Y" }} - {{ event.end_date|date:"M d, Y" }}</p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}</p>
+                    <p class="card-text">{{ event.description|safe|truncatewords:20 }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'event_detail' event.slug %}" class="btn btn-primary-custom">Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No upcoming events scheduled. Please check back later.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2 class="section-title mt-5">Past Events</h2>
+    <div class="row">
+        {% for event in past_events %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text"><i class="fas fa-calendar-alt me-2"></i>{{ event.start_date|date:"M d, Y" }} - {{ event.end_date|date:"M d, Y" }}</p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}</p>
+                    <p class="card-text">{{ event.description|safe|truncatewords:20 }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'event_detail' event.slug %}" class="btn btn-primary-custom">Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No past events to display.</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
