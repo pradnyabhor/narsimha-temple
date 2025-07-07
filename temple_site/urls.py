@@ -45,6 +45,8 @@ urlpatterns = [
         path('feedbacks/', views.manage_feedbacks, name='manage_feedbacks'),
         path('sevaks/', views.manage_sevaks, name='manage_sevaks'),
         path('social-activities/', views.manage_social_activities, name='manage_social_activities'),
+        path('social-activities/edit/<int:pk>/', views.edit_social_activity, name='edit_social_activity'),
+        path('social-activities/delete/<int:pk>/', views.delete_social_activity, name='delete_social_activity'),
         path('about-content/', views.manage_about_content, name='manage_about_content'),
     ])),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
