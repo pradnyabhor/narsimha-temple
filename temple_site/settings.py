@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,6 +31,7 @@ SECRET_KEY = 'django-insecure--6p1-m#55p9vrnn1d!8y4pwe=b)lf#_984886s&glwxi%u3@4i
 DEBUG = True
 
 ALLOWED_HOSTS = ['narsimha-temple.onrender.com','127.0.0.1','localhost']
+
 
 
 # Application definition
@@ -51,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'temple_site.urls'
@@ -75,17 +82,47 @@ WSGI_APPLICATION = 'temple_site.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+from dotenv import load_dotenv
+load_dotenv()
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['DB_NAME'],  # Raises error if missing
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],  # Default port
     }
 }
 
+# Add this for connection persistence (optional)
+DATABASES['default']['CONN_MAX_AGE'] = 500
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://narsimha-temple.onrender.com',
+    'https://www.narsimha-temple.onrender.com',
+    'http://127.0.0.1',
+    'http://localhost'
+]
+CSRF_COOKIE_DOMAIN = '.narsimha-temple.onrender.com'
+SESSION_COOKIE_DOMAIN = '.narsimha-temple.onrender.com'
+
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_TRUSTED_ORIGINS.extend([
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+    ])
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+print("hellodb: "+os.environ['DB_NAME'])
 
 AUTH_PASSWORD_VALIDATORS = [
     {
