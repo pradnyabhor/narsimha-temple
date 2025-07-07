@@ -1,6 +1,6 @@
 import csv
 from urllib.parse import urljoin
-
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -27,6 +27,7 @@ def temple_context(request):
 
 
 # Frontend Views
+@ensure_csrf_cookie
 def home(request):
     sliders = Slider.objects.filter(is_active=True)
     latest_updates = DailyUpdate.objects.filter(is_active=True).order_by('-date')[:3]
@@ -43,36 +44,36 @@ def home(request):
     }
     return render(request, 'frontend/home.html', context)
 
-
+@ensure_csrf_cookie
 def about(request):
     return render(request, 'frontend/about.html')
 
-
+@ensure_csrf_cookie
 def history(request):
     content = get_object_or_404(AboutContent, section='history')
     return render(request, 'frontend/about_section.html', {'content': content, 'section': 'history'})
 
-
+@ensure_csrf_cookie
 def festivals(request):
     content = get_object_or_404(AboutContent, section='festivals')
     return render(request, 'frontend/about_section.html', {'content': content, 'section': 'festivals'})
 
-
+@ensure_csrf_cookie
 def pooja(request):
     content = get_object_or_404(AboutContent, section='pooja')
     return render(request, 'frontend/about_section.html', {'content': content, 'section': 'pooja'})
 
-
+@ensure_csrf_cookie
 def places_to_visit(request):
     content = get_object_or_404(AboutContent, section='places')
     return render(request, 'frontend/about_section.html', {'content': content, 'section': 'places'})
 
-
+@ensure_csrf_cookie
 def how_to_reach(request):
     content = get_object_or_404(AboutContent, section='reach')
     return render(request, 'frontend/about_section.html', {'content': content, 'section': 'reach'})
 
-
+@ensure_csrf_cookie
 def daily_updates(request):
     updates_list = DailyUpdate.objects.filter(is_active=True).order_by('-date')
     paginator = Paginator(updates_list, 10)
@@ -80,7 +81,7 @@ def daily_updates(request):
     updates = paginator.get_page(page_number)
     return render(request, 'frontend/daily_updates.html', {'updates': updates})
 
-
+@ensure_csrf_cookie
 def blog_list(request):
     blogs_list = Blog.objects.filter(is_active=True).order_by('-created_at')
     paginator = Paginator(blogs_list, 6)
@@ -88,13 +89,13 @@ def blog_list(request):
     blogs = paginator.get_page(page_number)
     return render(request, 'frontend/blog_list.html', {'blogs': blogs})
 
-
+@ensure_csrf_cookie
 def blog_detail(request, slug):
     blog = get_object_or_404(Blog, slug=slug, is_active=True)
     recent_blogs = Blog.objects.filter(is_active=True).exclude(id=blog.id).order_by('-created_at')[:3]
     return render(request, 'frontend/blog_detail.html', {'blog': blog, 'recent_blogs': recent_blogs})
 
-
+@ensure_csrf_cookie
 def event_list(request):
     now = timezone.now()
     upcoming_events = Event.objects.filter(is_active=True, start_date__gte=now).order_by('start_date')
@@ -104,16 +105,16 @@ def event_list(request):
         'past_events': past_events,
     })
 
-
+@ensure_csrf_cookie
 def event_detail(request, slug):
     event = get_object_or_404(Event, slug=slug)
     return render(request, 'frontend/event_detail.html', {'event': event})
 
-
+@ensure_csrf_cookie
 def online_services(request):
     return render(request, 'frontend/online_services.html')
 
-
+@ensure_csrf_cookie
 def donation(request):
     if request.method == 'POST':
         form = DonationForm(request.POST)
@@ -129,7 +130,7 @@ def donation(request):
         form = DonationForm()
     return render(request, 'frontend/donation.html', {'form': form})
 
-
+@ensure_csrf_cookie
 def feedback(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
@@ -141,7 +142,7 @@ def feedback(request):
         form = FeedbackForm()
     return render(request, 'frontend/feedback.html', {'form': form})
 
-
+@ensure_csrf_cookie
 def sevak_registration(request):
     if request.method == 'POST':
         form = SevakRegistrationForm(request.POST)
@@ -153,12 +154,12 @@ def sevak_registration(request):
         form = SevakRegistrationForm()
     return render(request, 'frontend/sevak_registration.html', {'form': form})
 
-
+@ensure_csrf_cookie
 def social_activity(request):
     activities = SocialActivity.objects.filter(is_active=True).order_by('-date')
     return render(request, 'frontend/social_activity.html', {'activities': activities})
 
-
+@ensure_csrf_cookie
 # Admin Dashboard Views
 @login_required
 def admin_dashboard(request):
@@ -181,6 +182,7 @@ def admin_dashboard(request):
     return render(request, 'admin/dashboard.html', context)
 
 from django.conf import settings
+@ensure_csrf_cookie
 @login_required
 def manage_sliders(request):
     sliders = Slider.objects.all().order_by('-created_at')
@@ -197,7 +199,7 @@ def manage_sliders(request):
         slider.image_url = urljoin(settings.MEDIA_URL, slider.image.name)
     return render(request, 'admin/manage_sliders.html', {'form': form, 'sliders': sliders})
 
-
+@ensure_csrf_cookie
 @login_required
 def edit_slider(request, pk):
     slider = get_object_or_404(Slider, pk=pk)
@@ -211,7 +213,7 @@ def edit_slider(request, pk):
         form = SliderForm(instance=slider)
     return render(request, 'admin/edit_slider.html', {'form': form})
 
-
+@ensure_csrf_cookie
 @login_required
 def delete_slider(request, pk):
     slider = get_object_or_404(Slider, pk=pk)
@@ -221,7 +223,7 @@ def delete_slider(request, pk):
         return redirect('manage_sliders')
     return render(request, 'admin/delete_slider.html', {'slider': slider})
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_blogs(request):
     blogs = Blog.objects.all().order_by('-created_at')
@@ -235,7 +237,7 @@ def manage_blogs(request):
         form = BlogForm()
     return render(request, 'admin/manage_blogs.html', {'form': form, 'blogs': blogs})
 
-
+@ensure_csrf_cookie
 @login_required
 def edit_blog(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
@@ -249,7 +251,7 @@ def edit_blog(request, pk):
         form = BlogForm(instance=blog)
     return render(request, 'admin/edit_blog.html', {'form': form})
 
-
+@ensure_csrf_cookie
 @login_required
 def delete_blog(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
@@ -263,7 +265,7 @@ def delete_blog(request, pk):
         return redirect('manage_blogs')
     return render(request, 'admin/delete_blog.html', {'blog': blog})
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_events(request):
     events = Event.objects.all().order_by('-start_date')
@@ -277,7 +279,7 @@ def manage_events(request):
         form = EventForm()
     return render(request, 'admin/manage_events.html', {'form': form, 'events': events})
 
-
+@ensure_csrf_cookie
 @login_required
 def edit_event(request, pk):
     event = get_object_or_404(Event, pk=pk)
@@ -291,7 +293,7 @@ def edit_event(request, pk):
         form = EventForm(instance=event)
     return render(request, 'admin/edit_event.html', {'form': form})
 
-
+@ensure_csrf_cookie
 @login_required
 def delete_event(request, pk):
     event = get_object_or_404(Event, pk=pk)
@@ -301,7 +303,7 @@ def delete_event(request, pk):
         return redirect('manage_events')
     return render(request, 'admin/delete_event.html', {'event': event})
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_daily_updates(request):
     updates = DailyUpdate.objects.all().order_by('-date')
@@ -315,7 +317,7 @@ def manage_daily_updates(request):
         form = DailyUpdateForm()
     return render(request, 'admin/manage_daily_updates.html', {'form': form, 'updates': updates})
 
-
+@ensure_csrf_cookie
 @login_required
 def edit_daily_update(request, pk):
     update = get_object_or_404(DailyUpdate, pk=pk)
@@ -329,7 +331,7 @@ def edit_daily_update(request, pk):
         form = DailyUpdateForm(instance=update)
     return render(request, 'admin/edit_daily_update.html', {'form': form})
 
-
+@ensure_csrf_cookie
 @login_required
 def delete_daily_update(request, pk):
     update = get_object_or_404(DailyUpdate, pk=pk)
@@ -339,17 +341,19 @@ def delete_daily_update(request, pk):
         return redirect('manage_daily_updates')
     return render(request, 'admin/delete_daily_update.html', {'update': update})
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_donations(request):
     donations_list = Donation.objects.all().order_by('-created_at')
     paginator = Paginator(donations_list, 25)
     page_number = request.GET.get('page')
     donations = paginator.get_page(page_number)
+    if hasattr(paginator, 'explain'):
+        print(paginator.explain())
 
     return render(request, 'admin/manage_donations.html', {'donations': donations})
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_feedbacks(request):
     feedbacks = Feedback.objects.all().order_by('-created_at')
@@ -379,6 +383,7 @@ def manage_feedbacks(request):
         'status_filter': status_filter or 'all'
     })
 
+@ensure_csrf_cookie
 @login_required
 def mark_feedback_resolved(request, pk):
     feedback = get_object_or_404(Feedback, pk=pk)
@@ -387,13 +392,13 @@ def mark_feedback_resolved(request, pk):
     messages.success(request, 'Feedback marked as resolved!')
     return redirect('manage_feedbacks')
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_sevaks(request):
     sevaks = SevakRegistration.objects.all().order_by('-created_at')
     return render(request, 'admin/manage_sevaks.html', {'sevaks': sevaks})
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_social_activities(request):
     activities = SocialActivity.objects.all().order_by('-date')
@@ -407,7 +412,7 @@ def manage_social_activities(request):
         form = SocialActivityForm()
     return render(request, 'admin/manage_social_activities.html', {'form': form, 'activities': activities})
 
-
+@ensure_csrf_cookie
 @login_required
 def edit_social_activity(request, pk):
     activity = get_object_or_404(SocialActivity, pk=pk)
@@ -421,7 +426,7 @@ def edit_social_activity(request, pk):
         form = SocialActivityForm(instance=activity)
     return render(request, 'admin/edit_social_activity.html', {'form': form})
 
-
+@ensure_csrf_cookie
 @login_required
 def delete_social_activity(request, pk):
     activity = get_object_or_404(SocialActivity, pk=pk)
@@ -432,6 +437,7 @@ def delete_social_activity(request, pk):
     return render(request, 'admin/delete_social_activity.html', {'activity': activity})
 
 
+@ensure_csrf_cookie
 @login_required
 def manage_about_content(request):
     sections = AboutContent.objects.all()
@@ -457,7 +463,7 @@ def manage_about_content(request):
         'current_section': section,
     })
 
-
+@ensure_csrf_cookie
 @login_required
 def manage_donations(request):
     donations = Donation.objects.all().order_by('-created_at')
